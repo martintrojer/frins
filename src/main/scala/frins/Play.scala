@@ -1,6 +1,6 @@
 package frins
 
-object core extends App {
+object Play extends App {
   val dn: Double = 1.0
   val bn: BigDecimal = 1.0
 
@@ -15,5 +15,7 @@ object core extends App {
 
   println(n10 == n20)
   println(n10 + n20)
+
+  println(Number(1) / Number(2))
 
 }
