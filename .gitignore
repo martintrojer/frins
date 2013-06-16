@@ -1,0 +1,7 @@
+*.class
+*/target*
+target*
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/misc.xml
+*~
