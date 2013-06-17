@@ -4,24 +4,26 @@ class Number[T](val value:T, val units: UnitT)(implicit num: Fractional[T]) {
 
   // ----
 
-  override def toString() = value.toString + " " + units.foldLeft("")
-                              {(acc, kv) => acc + kv._1 + "^" + kv._2 + " "}
+  override def toString() = value.toString + " " + cleanUnits.foldLeft("")
+                              { case (acc, (k,v)) => acc + k + "^" + v + " "}
 
   override def equals(that: Any) = that match {
     case that: Number[T] => value == that.value && units == that.units
     case _            => false
   }
-  // TODO; hashCode
+
+  override def hashCode = 41 * units.hashCode() + value.hashCode()
 
   // ----
+  // Helper functions, where do these actually go?
 
-  def cleanUnits(um: UnitT) = um filter {_._2 != 0}
+  def cleanUnits() = units filter { _._2 != 0 }
 
-  def addUnits(um1: UnitT, um2: UnitT) =
-    um1 ++ um2.map{ case (k,v) => k -> (v + um1.getOrElse(k,0)) }
-  // TODO; clean up
-  def subUnits(um1: UnitT, um2: UnitT) =
-    um1 ++ um2.map{ case (k,v) => k -> (v - um1.getOrElse(k,0)) }
+  def mergeUnits (f: (Int, Int) => Int) (us: UnitT) =
+    units ++ us.map { case (k, v) => k -> f(units.getOrElse(k, 0), v) }
+
+  val addUnits = mergeUnits(_+_) _
+  val subUnits = mergeUnits(_-_) _
 
   def enforceUnits(n: Number[T]) =
     if (units != n.units)
@@ -40,10 +42,10 @@ class Number[T](val value:T, val units: UnitT)(implicit num: Fractional[T]) {
   }
 
   def *(that: Number[T]) =
-    new Number(num.times(value, that.value), addUnits(units, that.units))
+    new Number(num.times(value, that.value), addUnits(that.units))
 
   def /(that: Number[T]) =
-    new Number(num.div(value, that.value), subUnits(units, that.units))
+    new Number(num.div(value, that.value), subUnits(that.units))
 
   def ==(that: Number[T]) = {
     enforceUnits(that)
@@ -82,5 +84,6 @@ object Number{
   // TODO; where does this go?
   implicit def bigdecToNumber(b: BigDecimal) = apply(b)
   implicit def doubleToNumber(d: Double) = apply(d)
+  implicit def intToNumber(i: Int) = apply(i)
 
 }
