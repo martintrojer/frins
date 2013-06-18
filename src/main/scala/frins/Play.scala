@@ -18,4 +18,9 @@ object Play extends App {
 
   println(Number(1) / Number(2))
 
+  // -----------------
+
+  val in = getClass.getClassLoader.getResourceAsStream("units.edn")
+  val reader = new java.io.BufferedReader(new java.io.InputStreamReader(in))
+
 }
