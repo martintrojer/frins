@@ -35,5 +35,5 @@ object EDN extends JavaTokenParsers {
 
   val elem: Parser[Any] = ednElem | "," ~> elem | "N" ~> elem
 
-  def parse(reader: java.io.Reader) = parseAll(elem, reader)
+  def parse(reader: java.io.Reader) = parseAll(elem, reader).get
 }
