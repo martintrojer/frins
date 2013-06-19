@@ -3,18 +3,6 @@ package frins
 class Number[T](val value:T, val units: UnitT)(implicit num: Fractional[T]) {
 
   // ----
-
-  override def toString() = value.toString + " " + cleanUnits.foldLeft("")
-                              { case (acc, (k,v)) => acc + k + "^" + v + " "}
-
-  override def equals(that: Any) = that match {
-    case that: Number[T] => value == that.value && units == that.units
-    case _            => false
-  }
-
-  override val hashCode = 41 * units.hashCode() + value.hashCode()
-
-  // ----
   // Helper functions, where do these actually go?
 
   def cleanUnits() = units filter { _._2 != 0 }
@@ -72,9 +60,20 @@ class Number[T](val value:T, val units: UnitT)(implicit num: Fractional[T]) {
     num.lteq(value, that.value)
   }
 
+  // ----
+
+  override def toString() = value.toString + " " + cleanUnits.foldLeft("")
+  { case (acc, (k,v)) => acc + k + "^" + v + " "}
+
+  override def equals(that: Any) = that match {
+    case that: Number[T] => value == that.value && units == that.units
+    case _            => false
+  }
+
+  override val hashCode = 41 * units.hashCode() + value.hashCode()
 }
 
-object Number{
+object Number {
   def apply(): Number[BigDecimal] = apply(0)
   // TODO; instead of Map, do we want (String,Int)* here?
   def apply(v: BigDecimal): Number[BigDecimal] = apply(v, Map())

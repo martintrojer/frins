@@ -20,10 +20,24 @@ object Play extends App {
 
   // -----------------
 
+  val a = Atom(1)
+  println(a)
+
+  a.reset(2)
+  println(a)
+
+  a.swap(_ + 1)
+  println(a)
+
+  // -----------------
+
   val in = getClass.getClassLoader.getResourceAsStream("units.edn")
   val reader = new java.io.BufferedReader(new java.io.InputStreamReader(in))
 
   val r = EDN.parse(reader).asInstanceOf[Map[Any,Any]]
-  println(r.keys)
+  println(r.map {
+    case (k,v:Map[Any,Any]) => (k, v.size)
+    case (k,v:Set[Any]) => (k, v.size)})
+  println(r.asInstanceOf[Map[String,Map[String,Number[_]]]](":units").take(5))
 
 }
