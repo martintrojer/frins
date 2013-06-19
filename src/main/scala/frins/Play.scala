@@ -34,10 +34,24 @@ object Play extends App {
   val in = getClass.getClassLoader.getResourceAsStream("units.edn")
   val reader = new java.io.BufferedReader(new java.io.InputStreamReader(in))
 
-  val r = EDN.parse(reader).asInstanceOf[Map[Any,Any]]
+  val r = EDN.parse(reader).asInstanceOf[Map[String,Any]]
   println(r.map {
     case (k,v:Map[Any,Any]) => (k, v.size)
     case (k,v:Set[Any]) => (k, v.size)})
-  println(r.asInstanceOf[Map[String,Map[String,Number[_]]]](":units").take(5))
+
+  val units = Units(
+    r(":units").asInstanceOf[UnitMapT]
+      .map { case (k, v) => (k.tail.init, v)},
+    r(":fundamental-units").asInstanceOf[Map[Map[String, Double], String]]
+      .map { case (u, n) => (u.map { case (k ,v) => (k.tail.init, v.toInt)}, n.tail.init)},
+    r(":fundamentals").asInstanceOf[Set[String]].map {_.tail.init})
+
+  println(units.isFundamental("m"))
+  units.addFundamental("foo")
+  println(units.fundamentals.get)
+
+  println(units.units.get.take(5))
+  println(units.fundamentalUnits.get.take(5))
+  println(units.fundamentals.get)
 
 }

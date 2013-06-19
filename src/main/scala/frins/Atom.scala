@@ -2,7 +2,7 @@ package frins
 
 import java.util.concurrent.atomic.AtomicReference
 
-class Atom[T](private var state: AtomicReference[T]) {
+class Atom[T](private val state: AtomicReference[T]) {
 
   def get = state.get()
 

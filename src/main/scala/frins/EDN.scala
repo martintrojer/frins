@@ -19,7 +19,9 @@ object EDN extends JavaTokenParsers {
                                       .parse(value.tail.init)
     case "#frinj.core.fjv" ~ (m: Map[String, Any]) =>
       Number( m(":v").asInstanceOf[Double],
-              m(":u").asInstanceOf[Map[String, Double]].map {case (k,v) => (k, v.toInt)})
+              m(":u").asInstanceOf[Map[String, Double]].map {
+                case (k,v) => (k.tail.init, v.toInt)
+              })
     case name ~ value => (name, value)
   }
   val ratio: Parser[Double] = floatingPointNumber ~ "/" ~ floatingPointNumber ^^ {
