@@ -12,7 +12,7 @@ class Number[T](val value:T, val units: UnitT)(implicit num: Fractional[T]) {
     case _            => false
   }
 
-  override def hashCode = 41 * units.hashCode() + value.hashCode()
+  override val hashCode = 41 * units.hashCode() + value.hashCode()
 
   // ----
   // Helper functions, where do these actually go?

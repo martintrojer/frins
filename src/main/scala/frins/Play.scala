@@ -23,4 +23,7 @@ object Play extends App {
   val in = getClass.getClassLoader.getResourceAsStream("units.edn")
   val reader = new java.io.BufferedReader(new java.io.InputStreamReader(in))
 
+  val r = EDN.parse(reader)
+  println(r)
+
 }
