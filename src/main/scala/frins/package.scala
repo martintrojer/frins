@@ -6,4 +6,6 @@ package object frins {
 
   type UnitMapT = Map[String, NumberT]
   type RevUnitMapT = Map[UnitT, String]
+
+  type PrefixT = Map[String, NumberT]
 }

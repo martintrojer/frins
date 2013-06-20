@@ -4,7 +4,7 @@ import java.util.concurrent.atomic.AtomicReference
 
 class Atom[T](private val state: AtomicReference[T]) {
 
-  def get = state.get()
+  def get() = state.get()
 
   def swap(f: T => T): T = {
     val v = state.get()

@@ -1,17 +1,9 @@
 package frins
 
 object Play extends App {
-  val dn: Double = 1.0
-  val bn: BigDecimal = 1.0
 
-  val n1 = new Number(dn, Map("m" -> 1, "s" -> -1))
-  val n2 = new Number(bn, Map("m" -> 1, "s" -> -1))
-
-  println(n1 == n2)         // this should be false?
-  // println(n1 + n2)
-
-  val n10 = Number(dn, Map("m" -> 1, "s" -> -1))
-  val n20 = Number(bn, Map("m" -> 1, "s" -> -1))
+  val n10 = Number(1.0, Map("m" -> 1, "s" -> -1))
+  val n20 = Number(1.0, Map("m" -> 1, "s" -> -1))
 
   println(n10 == n20)
   println(n10 + n20)
@@ -39,15 +31,20 @@ object Play extends App {
     case (k,v:Map[Any,Any]) => (k, v.size)
     case (k,v:Set[Any]) => (k, v.size)})
 
+  println(r(":prefixes"))
+
   val units = Units(
     r(":units").asInstanceOf[UnitMapT],
     r(":fundamental-units").asInstanceOf[Map[Map[String, Double], String]]
       .map { case (u, n) => (u.map { case (k ,v) => (k, v.toInt)}, n)},
     r(":fundamentals").asInstanceOf[Set[String]])
 
+  val prefixes = Prefixes(
+    r(":prefixes").asInstanceOf[PrefixT],
+    r(":standalone-prefixes").asInstanceOf[PrefixT])
+
   println(units.isFundamental("m"))
   units.addFundamental("foo")
-  println(units.fundamentals.get)
 
   println(units.units.get.take(5))
   println(units.fundamentalUnits.get.take(5))

@@ -15,11 +15,10 @@ class Units(us: UnitMapT, fus: RevUnitMapT, fs: Set[String]) {
   def addFundamental(name: String) = fundamentals.swap(s => s + name)
 
   // ---
-
-
 }
 
 object Units {
+  def apply() = new Units(Map(), Map(), Set())
   def apply(units: UnitMapT, fundamentalUnits: RevUnitMapT, fundamentals: Set[String]) =
     new Units(units, fundamentalUnits, fundamentals)
 }

@@ -74,14 +74,13 @@ class Number[T](val value:T, val units: UnitT)(implicit num: Fractional[T]) {
 }
 
 object Number {
-  def apply(): Number[BigDecimal] = apply(0)
+  def apply(): Number[Double] = apply(0)
   // TODO; instead of Map, do we want (String,Int)* here?
-  def apply(v: BigDecimal): Number[BigDecimal] = apply(v, Map())
-  def apply(units: UnitT): Number[BigDecimal] = apply(0, units)
-  def apply(v: BigDecimal, units: UnitT): Number[BigDecimal] = new Number(v, units)
+  def apply(v: Double): Number[Double] = apply(v, Map())
+  def apply(units: UnitT): Number[Double] = apply(0, units)
+  def apply(v: Double, units: UnitT): Number[Double] = new Number(v, units)
 
   // TODO; where does this go?
-  implicit def bigdecToNumber(b: BigDecimal) = apply(b)
   implicit def doubleToNumber(d: Double) = apply(d)
   implicit def intToNumber(i: Int) = apply(i)
 
