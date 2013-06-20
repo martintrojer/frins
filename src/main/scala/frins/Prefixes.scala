@@ -15,20 +15,25 @@ class Prefixes(pfxs: PrefixT, spfxs: PrefixT) {
   def addStandalonePrefix(name: String, v: NumberT) = standalonePrefixes.swap(_ + (name -> v))
 
   // Finds the longest prefix in a unit name and replaces it with with factor
-  def resolvePrefixedUnit(name: String, units: Units): (NumberT, String) = units.getUnit(name) match {
+  def resolvePrefixedUnit(name: String, units: Units) = units.getUnit(name) match {
     case Some(u)  => (u, "")
     case None     => {
       val pfx = allNames
                 .toList
                 .filter { name.startsWith(_) }
-                .sortBy {_.size}
+                .sortBy { _.size }
                 .reverse
-                .filter { n => units.units.get.contains(name.substring (n.size)) }
+                .filter { n => units.units.get.contains(name.substring(n.size)) }
       if (pfx != List())
         (getPrefix(pfx.head).get, name.substring(pfx.head.size))
       else
         (Number(1.0), name)
     }
+  }
+
+  // Replaces all units with prefix + new unit
+  def resolveUnitPrefixes(units: UnitT) = {
+
   }
 }
 
