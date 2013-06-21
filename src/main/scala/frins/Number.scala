@@ -35,6 +35,9 @@ class Number[T](val value:T, val units: UnitT)(implicit num: Fractional[T]) {
   def /(that: Number[T]) =
     new Number(num.div(value, that.value), subUnits(that.units))
 
+  def **(exp: Int) =
+    (0 until exp.abs).foldLeft(this / this) { (acc, _) => if (exp < 0) acc / this else acc * this }
+
   def ==(that: Number[T]) = {
     enforceUnits(that)
     num.equiv(value, that.value)

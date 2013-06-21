@@ -35,7 +35,16 @@ class PrefixesTest extends FunSuite {
     expectResult((Number(1.0/100), "m")) { prefixes.resolvePrefixedUnit("cm", units)}
     expectResult((Number(1), "cK")) { prefixes.resolvePrefixedUnit("cK", units)}
     expectResult((Number(1), "centim")) { prefixes.resolvePrefixedUnit("centim", units)}
-    expectResult((Number(3.14), "")) { prefixes.resolvePrefixedUnit("pi", units)}
+    expectResult((Number(1), "pi")) { prefixes.resolvePrefixedUnit("pi", units)}
+  }
+
+  test("resolveUnitPrefixes") {
+    expectResult(Number(1)) { prefixes.resolveUnitPrefixes(Map(), units) }
+    expectResult(Number(1, Map("m" -> 1))) { prefixes.resolveUnitPrefixes(Map("m" -> 1), units) }
+    expectResult(Number(1.0/100, Map("m" -> 1))) { prefixes.resolveUnitPrefixes(Map("cm" -> 1), units) }
+    expectResult(Number(1, Map("m" -> 1, "s" -> -1))) {
+      prefixes.resolveUnitPrefixes(Map("cm" -> 1, "cs" -> -1), units) }
+    expectResult(Number(10, Map("s" -> -1))) { prefixes.resolveUnitPrefixes(Map("ds" -> -1), units) }
   }
 
 

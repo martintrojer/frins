@@ -15,6 +15,9 @@ class Units(us: UnitMapT, fus: RevUnitMapT, fs: Set[String]) {
   def addFundamental(name: String) = fundamentals.swap(s => s + name)
 
   // ---
+
+  def normalizeUnits(n: NumberT) = ???
+
 }
 
 object Units {

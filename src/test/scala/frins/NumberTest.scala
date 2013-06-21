@@ -47,7 +47,23 @@ class NumberTest extends FunSuite {
     expectResult(Number(1, us1 + ("s" -> 0))) { Number(1.5, us1 ++ us2) / Number(1.5, us2) }
   }
 
+  // pow
+
+  test("pow") {
+    expectResult(Number(1)) { Number(1) ** 0 }
+    expectResult(Number(1)) { Number(2) ** 0 }
+    val n = Number(2, Map("m" -> 2, "s" -> -1))
+    expectResult(Number(1, Map("m" -> 0, "s" -> 0))) { n ** 0 }
+    expectResult(n) { n ** 1 }
+    expectResult(n * n) { n ** 2 }
+    expectResult(Number(4, Map("m" -> 4, "s" -> -2))) { n ** 2 }
+    expectResult(1 / n) { n ** -1 }
+    expectResult(1 / n / n) { n ** -2 }
+    expectResult(Number(0.25, Map("m" -> -4, "s" -> 2))) { n ** -2 }
+  }
+
   // comp
+
   test("comp w/o units") {
     expectResult(false) { Number(1) == Number(1.1) }
     expectResult(false) { Number(1) >= Number(1.1) }
