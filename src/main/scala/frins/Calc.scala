@@ -1,19 +1,19 @@
 package frins
 
-class Calc(val unitsDb: UnitDb, val prefixDb: PrefixDb) {
+object Calc {
 
   // Finds the longest prefix in a unit name and replaces it with with factor
-  def resolvePrefixedUnit(name: String) = unitsDb.getUnit(name) match {
+  def resolvePrefixedUnit(name: String) = Units.getUnit(name) match {
     case Some(u)  => (Number(1), name)
     case None     => {
-      val pfx = prefixDb.allNames
+      val pfx = Prefixes.allNames
         .toList
         .filter { name.startsWith(_) }
         .sortBy { _.size }
         .reverse
-        .filter { n => unitsDb.isUnit(name.substring(n.size)) }
+        .filter { n => Units.isUnit(name.substring(n.size)) }
       if (pfx != List())
-        (prefixDb.getPrefix(pfx.head).get, name.substring(pfx.head.size))
+        (Prefixes.getPrefix(pfx.head).get, name.substring(pfx.head.size))
       else
         (Number(1.0), name)
     }
@@ -34,9 +34,9 @@ class Calc(val unitsDb: UnitDb, val prefixDb: PrefixDb) {
   def normalizeUnits(n: NumberT) =
     (n.units.foldLeft(n) { (acc, kv) =>
       val (name, exp) = kv
-      unitsDb.getUnit(name).orElse(prefixDb.getStandAlonePrefix(name)) match {
-        case Some(num)   =>
-          if (unitsDb.isFundamental(name)) acc
+      Units.getUnit(name).orElse(Prefixes.getStandAlonePrefix(name)) match {
+        case Some(num: NumberT)   =>
+          if (Units.isFundamental(name)) acc
           else {
             val fact = num ** exp.abs
             (if (exp > 0) acc * fact else acc / fact) / Number(1, Map(name -> exp))
@@ -62,6 +62,4 @@ class Calc(val unitsDb: UnitDb, val prefixDb: PrefixDb) {
       1 / newNum / normU
     else throw new IllegalArgumentException("cannot convert to a different unit")
   }
-
-
 }

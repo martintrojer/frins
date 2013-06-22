@@ -25,5 +25,4 @@ class Atom[T](private val state: AtomicReference[T]) {
 
 object Atom {
   def apply[T](state: T) = new Atom[T](new AtomicReference[T](state))
-  def apply[T]() = new Atom[T](new AtomicReference[T]())
 }

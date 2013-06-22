@@ -65,6 +65,10 @@ class Number[T](val value:T, val units: UnitT)(implicit num: Fractional[T]) {
 
   // ----
 
+  def apply(that: Number[T]) = this * that
+
+  // ----
+
   override def toString() = value.toString + " " + cleanUnits.units.foldLeft("")
   { case (acc, (k,v)) => acc + k + "^" + v + " "}
 
@@ -82,9 +86,4 @@ object Number {
   def apply(v: Double): Number[Double] = apply(v, Map())
   def apply(units: UnitT): Number[Double] = apply(0, units)
   def apply(v: Double, units: UnitT): Number[Double] = new Number(v, units)
-
-  // TODO; where does this go?
-  implicit def doubleToNumber(d: Double) = apply(d)
-  implicit def intToNumber(i: Int) = apply(i)
-
 }

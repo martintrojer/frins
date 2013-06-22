@@ -23,31 +23,26 @@ object Play extends App {
 
   // -----------------
 
-  val in = getClass.getClassLoader.getResourceAsStream("units.edn")
-  val reader = new java.io.BufferedReader(new java.io.InputStreamReader(in))
+  def parseAndStff = {
+    val in = getClass.getClassLoader.getResourceAsStream("units.edn")
+    val reader = new java.io.BufferedReader(new java.io.InputStreamReader(in))
+    val r = EDNReader.readAll(reader).asInstanceOf[Map[String,Any]]
+    println(r.map {
+      case (k,v:Map[Any,Any]) => (k, v.size)
+      case (k,v:Set[Any]) => (k, v.size)})
 
-  val r = EDNReader.readAll(reader).asInstanceOf[Map[String,Any]]
-  println(r.map {
-    case (k,v:Map[Any,Any]) => (k, v.size)
-    case (k,v:Set[Any]) => (k, v.size)})
+    println(r(":prefixes"))
+  }
 
-  println(r(":prefixes"))
+  initDatabases()
 
-  val units = UnitDb(
-    r(":units").asInstanceOf[UnitMapT],
-    r(":fundamental-units").asInstanceOf[Map[Map[String, Double], String]]
-      .map { case (u, n) => (u.map { case (k ,v) => (k, v.toInt)}, n)},
-    r(":fundamentals").asInstanceOf[Set[String]])
+  println(Units.isFundamental("m"))
+  Units.addFundamental("foo")
 
-  val prefixes = PrefixDb(
-    r(":prefixes").asInstanceOf[PrefixT],
-    r(":standalone-prefixes").asInstanceOf[PrefixT])
+  println(Units.units.get.take(5))
+  println(Units.fundamentalUnits.get.take(5))
+  println(Units.fundamentals.get)
 
-  println(units.isFundamental("m"))
-  units.addFundamental("foo")
-
-  println(units.units.get.take(5))
-  println(units.fundamentalUnits.get.take(5))
-  println(units.fundamentals.get)
+  println((Number(1, Map("m" -> 1)) + "inch") / "yard")
 
 }

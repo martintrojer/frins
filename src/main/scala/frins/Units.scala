@@ -1,10 +1,18 @@
 package frins
 
-class UnitDb(us: UnitMapT, fus: RevUnitMapT, fs: Set[String]) {
+// The global unit state
 
-  val units = Atom[UnitMapT](us)
-  val fundamentalUnits = Atom[RevUnitMapT](fus)
-  val fundamentals = Atom[Set[String]](fs)
+object Units {
+
+  val units = Atom[UnitMapT](Map())
+  val fundamentalUnits = Atom[RevUnitMapT](Map())
+  val fundamentals = Atom[Set[String]](Set())
+
+  def resetUnits(us: UnitMapT) = units.reset(us)
+  def resetFundamentals(fs: Set[String]) = fundamentals.reset(fs)
+  def resetFundamentalUnits(fus: RevUnitMapT) = fundamentalUnits.reset(fus)
+
+  // ---
 
   def getUnit(name: String) = units.get.get(name)
   def isUnit(name: String) = units.get.contains(name)
@@ -14,10 +22,4 @@ class UnitDb(us: UnitMapT, fus: RevUnitMapT, fs: Set[String]) {
     fundamentalUnits.swap(m => m + (value -> name))
   def isFundamental(name: String) = fundamentals.get.contains(name)
   def addFundamental(name: String) = fundamentals.swap(s => s + name)
-}
-
-object UnitDb {
-  def apply() = new UnitDb(Map(), Map(), Set())
-  def apply(units: UnitMapT, fundamentalUnits: RevUnitMapT, fundamentals: Set[String]) =
-    new UnitDb(units, fundamentalUnits, fundamentals)
 }
