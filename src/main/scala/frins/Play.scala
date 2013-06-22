@@ -33,13 +33,13 @@ object Play extends App {
 
   println(r(":prefixes"))
 
-  val units = Units(
+  val units = UnitDb(
     r(":units").asInstanceOf[UnitMapT],
     r(":fundamental-units").asInstanceOf[Map[Map[String, Double], String]]
       .map { case (u, n) => (u.map { case (k ,v) => (k, v.toInt)}, n)},
     r(":fundamentals").asInstanceOf[Set[String]])
 
-  val prefixes = Prefixes(
+  val prefixes = PrefixDb(
     r(":prefixes").asInstanceOf[PrefixT],
     r(":standalone-prefixes").asInstanceOf[PrefixT])
 

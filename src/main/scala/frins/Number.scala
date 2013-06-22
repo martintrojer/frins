@@ -5,8 +5,6 @@ class Number[T](val value:T, val units: UnitT)(implicit num: Fractional[T]) {
   // ----
   // Helper functions, where do these actually go?
 
-  def cleanUnits() = units filter { _._2 != 0 }
-
   def mergeUnits (f: (Int, Int) => Int) (us: UnitT) =
     units ++ us.map { case (k, v) => k -> f(units.getOrElse(k, 0), v) }
 
@@ -18,6 +16,8 @@ class Number[T](val value:T, val units: UnitT)(implicit num: Fractional[T]) {
       throw new IllegalArgumentException("units doesn't match")
 
   // ----
+
+  def cleanUnits() = new Number(value, units filter { _._2 != 0 })
 
   def +(that: Number[T]) = {
     enforceUnits(that)
@@ -65,7 +65,7 @@ class Number[T](val value:T, val units: UnitT)(implicit num: Fractional[T]) {
 
   // ----
 
-  override def toString() = value.toString + " " + cleanUnits.foldLeft("")
+  override def toString() = value.toString + " " + cleanUnits.units.foldLeft("")
   { case (acc, (k,v)) => acc + k + "^" + v + " "}
 
   override def equals(that: Any) = that match {

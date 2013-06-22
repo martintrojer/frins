@@ -7,11 +7,11 @@ class NumberTest extends FunSuite {
   // helpers
 
   test("cleanUnits") {
-    expectResult(Number(1).units) { Number(1).cleanUnits() }
-    val u = Map("m" -> 1)
-    expectResult(u) { Number(1,u).cleanUnits() }
+    expectResult(Number(1)) { Number(1).cleanUnits() }
+    val n = Number(1, Map("m" -> 1))
+    expectResult(n) { n.cleanUnits() }
     val u2 = Map("m" -> 1, "s" -> -1)
-    expectResult(u2) { Number(1,u2 + ("foo" -> 0)).cleanUnits() }
+    expectResult(Number(1, u2)) { Number(1, u2 + ("foo" -> 0)).cleanUnits() }
   }
 
   // add/sub
