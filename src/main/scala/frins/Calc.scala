@@ -48,5 +48,20 @@ class Calc(val unitsDb: UnitDb, val prefixDb: PrefixDb) {
   // Resolve all units with prefixes, and normalized the result
   def resolveAndNormalizeUnits(us: UnitT) =
     normalizeUnits(resolveUnitPrefixes(us))
+  def resolveAndNormalizeUnits(n: NumberT) =
+    normalizeUnits(resolveUnitPrefixes(n.units))
+
+  // Converts a fjv to a given unit, will resolve and normalize. Will reverse if units 'mirrored'
+  def convert(n: NumberT, us: UnitT) = {
+    val normN = resolveAndNormalizeUnits(n)
+    val normU = resolveAndNormalizeUnits(us)
+    val newNum = normN * n.value
+    if (newNum.units == normU.units)
+      newNum / normU
+    else if ((1 / newNum).units == normU.units)
+      1 / newNum / normU
+    else throw new IllegalArgumentException("cannot convert to a different unit")
+  }
+
 
 }

@@ -49,8 +49,24 @@ class CalcTest extends FunSuite {
   }
 
   test("resolveAndNormalizeUnits") {
-    expectResult(Number(1)) { calc.resolveAndNormalizeUnits(Map()) }
+    expectResult(Number(1)) { calc.resolveAndNormalizeUnits(1) }
     expectResult(Number(3140, Map("m" -> 1))) { calc.resolveAndNormalizeUnits(Map("pi" -> 1, "km" -> 1)) }
+  }
+
+  test("convert") {
+    expectResult(Number(1)) { calc.convert(1, Map()) }
+    val us = Map("m" -> 1, "s" -> -1)
+    expectResult(Number(3.14, Map("m" -> 0, "s" -> 0))) { calc.convert(Number(3.14, us), us) }
+    expectResult(Number(1.0/100, Map("m" -> 0))) { calc.convert(Number(1, Map("cm" -> 1)), Map("m" -> 1)) }
+    expectResult(Number(100, Map("m" -> 0))) { calc.convert(Number(1, Map("m" -> 1)), Map("cm" -> 1)) }
+    expectResult(Number(1.0/50, Map("m" -> 0))) { calc.convert(Number(2, Map("cm" -> 1)), Map("m" -> 1)) }
+//    expectResult(Number(1.0/254, Map("m" -> 0))) { calc.convert(Number(1, Map("dm" -> 1)), Map("kinch" -> 1)) }
+
+    intercept[IllegalArgumentException] { calc.convert(Number(1, Map("m" -> 1)), Map("s" -> 1)) }
+
+    expectResult(Number(1.0 / 2, Map("m" -> 0))) { calc.convert(Number(2, Map("m" -> 1)), Map("m" -> -1)) }
+    expectResult(Number(1.0 / 3, Map("m" -> 0, "s" -> 0))) { calc.convert(Number(3, Map("m" -> -1, "s" -> 1)), us) }
+    intercept[IllegalArgumentException] { calc.convert(Number(3, Map("m" -> -1, "s" -> -1)), us) }
 
   }
 
