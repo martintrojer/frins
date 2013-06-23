@@ -91,17 +91,25 @@ class Number[T](val value:T, val units: UnitT)(implicit num: Fractional[T]) {
 }
 
 object Number {
-  def apply(): Number[Double] = apply(0)
-  def apply(v: Double): Number[Double] = new Number(v, Map())
-  def apply(units: UnitT): Number[Double] = apply(0, units)
-  def apply(v: Double, units: UnitT): Number[Double] = new Number(v, units)
+  def apply(): NumberT = apply(0)
+  def apply(v: Double): NumberT = new Number(v, Map())
+  def apply(units: UnitT): NumberT = apply(0, units)
+  def apply(v: Double, units: UnitT): NumberT = new Number(v, units)
 
-  def buildNumber(v: Double, us: Seq[String]): Number[Double] =
+  def buildNumber(v: Double, us: Seq[String]): NumberT =
     us.foldLeft(new Number(v, Map()))
     { (acc, u) =>
       if (u.startsWith("_")) acc / Calc.resolveAndNormalizeUnits(Map(u.tail -> 1))
       else acc * Calc.resolveAndNormalizeUnits(Map(u -> 1)) }
 
-  def apply(us: Symbol*): Number[Double] = buildNumber(1.0, us.map{_.name})
-  def apply(v: Double, us: Symbol*): Number[Double] = buildNumber(v, us.map{_.name})
+  def apply(us: Symbol*): NumberT = buildNumber(1.0, us.map{_.name})
+  def apply(v: Double, us: Symbol*): NumberT = buildNumber(v, us.map{_.name})
+}
+
+object N {
+
+  import Number.buildNumber
+
+  def apply(us: Symbol*): NumberT = buildNumber(1.0, us.map{_.name})
+  def apply(v: Double, us: Symbol*): NumberT = buildNumber(v, us.map{_.name})
 }
