@@ -3,7 +3,7 @@ package object frins {
 
   type UnitT = Map[String, Int]
 
-  type NumberT = Number[Double]
+  type NumberT = Number[Ratio]
 
   type UnitMapT = Map[String, NumberT]
   type RevUnitMapT = Map[UnitT, String]
@@ -28,8 +28,10 @@ package object frins {
     Prefixes.resetStandalonePrefixes(r(":standalone-prefixes").asInstanceOf[PrefixT])
   }
 
-  implicit def doubleToNumber(d: Double) = Number(d)
+//  implicit def doubleToNumber(d: Double) = Number(d)
   implicit def intToNumber(i: Int) = Number(i)
+  implicit def ratioToNumber(r: Ratio) = Number(r)
+  implicit def doubleToNumber(d: Double) = Number(d)
   implicit def stringToNumber(s: String) = Units.getUnit(s).getOrElse(Number(1, Map(s -> 1)))
   implicit def symbolToNumber(s: Symbol) = Units.getUnit(s.name).getOrElse(Number(1, Map(s.name -> 1)))
 

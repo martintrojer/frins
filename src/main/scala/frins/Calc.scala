@@ -15,7 +15,7 @@ object Calc {
       if (pfx != List())
         (Prefixes.getPrefix(pfx.head).get, name.substring(pfx.head.size))
       else
-        (Number(1.0), name)
+        (Number(1), name)
     }
   }
 

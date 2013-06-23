@@ -30,13 +30,13 @@ object EDNReader extends JavaTokenParsers {
     case "#uuid" ~ (value: String) => UUID.fromString(value)
     case "#inst" ~ (value: String) => Instant.read(value)
     case "#frinj.core.fjv" ~ (m: Map[String, Any]) =>
-      Number( m(":v").asInstanceOf[Double],
+      Number( m(":v").asInstanceOf[Ratio],
               m(":u").asInstanceOf[Map[String, Double]].map {
                 case (k,v) => (k, v.toInt)})
     case name ~ value => (name, value)
   }
-  val ratio: Parser[Double] = floatingPointNumber ~ "/" ~ floatingPointNumber ^^ {
-    case num ~ _ ~ denom => num.toDouble / denom.toDouble
+  val ratio: Parser[Ratio] = floatingPointNumber ~ "/" ~ floatingPointNumber ^^ {
+    case num ~ _ ~ denom => Ratio(num.toInt, denom.toInt)
   }
 
   val ednElem: Parser[Any] =  set | map | vector | list | keyword | tagElem | ratio |

@@ -2,7 +2,7 @@ package frins
 
 object Play extends App {
 
-  val n10 = Number(1.0, Map("m" -> 1, "s" -> -1))
+  val n10 = Number(1, Map("m" -> 1, "s" -> -1))
   val n20 = Number(1.0, Map("m" -> 1, "s" -> -1))
 
   println(n10 == n20)
