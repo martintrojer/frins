@@ -32,7 +32,7 @@ object Calc {
   // Replaces units with already defined ones, and remove zero units
   // (fj-val. fact {u1:1, u2:-1} -> Number(nfact, {u0:1, u2:-1}
   def normalizeUnits(n: NumberT) =
-    (n.units.foldLeft(n) { (acc, kv) =>
+    n.units.foldLeft(n) { (acc, kv) =>
       val (name, exp) = kv
       Units.getUnit(name).orElse(Prefixes.getStandAlonePrefix(name)) match {
         case Some(num: NumberT)   =>
@@ -43,7 +43,7 @@ object Calc {
           }
         case None        => acc
       }
-    }).cleanUnits
+    }.cleanUnits
 
   // Resolve all units with prefixes, and normalized the result
   def resolveAndNormalizeUnits(us: UnitT) =

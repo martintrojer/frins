@@ -65,6 +65,14 @@ class Number[T](val value:T, val units: UnitT)(implicit num: Fractional[T]) {
 
   // ----
 
+  import Number.buildNumber
+
+  def to(that: NumberT): NumberT =
+    Calc.convert(this.asInstanceOf[NumberT], that.units) / that.value
+  def to(us: Symbol*): NumberT = to(buildNumber(1.0, us.map{_.name}))
+
+  // ----
+
   // override def toString() = value.toString + " : " + units.toString
 
   override def toString() = {
@@ -90,9 +98,9 @@ object Number {
 
   def buildNumber(v: Double, us: Seq[String]): Number[Double] =
     us.foldLeft(new Number(v, Map()))
-      { (acc, u) =>
-        if (u.startsWith("_")) acc / Calc.resolveAndNormalizeUnits(Map(u.tail -> 1))
-        else acc * Calc.resolveAndNormalizeUnits(Map(u -> 1)) }
+    { (acc, u) =>
+      if (u.startsWith("_")) acc / Calc.resolveAndNormalizeUnits(Map(u.tail -> 1))
+      else acc * Calc.resolveAndNormalizeUnits(Map(u -> 1)) }
 
   def apply(us: Symbol*): Number[Double] = buildNumber(1.0, us.map{_.name})
   def apply(v: Double, us: Symbol*): Number[Double] = buildNumber(v, us.map{_.name})
