@@ -31,5 +31,6 @@ package object frins {
   implicit def doubleToNumber(d: Double) = Number(d)
   implicit def intToNumber(i: Int) = Number(i)
   implicit def stringToNumber(s: String) = Units.getUnit(s).getOrElse(Number(1, Map(s -> 1)))
+  implicit def symbolToNumber(s: Symbol) = Units.getUnit(s.name).getOrElse(Number(1, Map(s.name -> 1)))
 
 }

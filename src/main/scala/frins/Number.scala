@@ -65,12 +65,14 @@ class Number[T](val value:T, val units: UnitT)(implicit num: Fractional[T]) {
 
   // ----
 
-  def apply(that: Number[T]) = this * that
+  // override def toString() = value.toString + " : " + units.toString
 
-  // ----
-
-  override def toString() = value.toString + " " + cleanUnits.units.foldLeft("")
-  { case (acc, (k,v)) => acc + k + "^" + v + " "}
+  override def toString() = {
+    val n = cleanUnits
+    n.value.toString + " " +
+      n.units.map { case (k,v) => k + "^" + v }.mkString(" ") +
+      " [" + Units.getFundamentalUnit(n.units).getOrElse("") +  "]"
+  }
 
   override def equals(that: Any) = that match {
     case that: Number[T] => value == that.value && units == that.units
@@ -82,8 +84,16 @@ class Number[T](val value:T, val units: UnitT)(implicit num: Fractional[T]) {
 
 object Number {
   def apply(): Number[Double] = apply(0)
-  // TODO; instead of Map, do we want (String,Int)* here?
-  def apply(v: Double): Number[Double] = apply(v, Map())
+  def apply(v: Double): Number[Double] = new Number(v, Map())
   def apply(units: UnitT): Number[Double] = apply(0, units)
   def apply(v: Double, units: UnitT): Number[Double] = new Number(v, units)
+
+  def buildNumber(v: Double, us: Seq[String]): Number[Double] =
+    us.foldLeft(new Number(v, Map()))
+      { (acc, u) =>
+        if (u.startsWith("_")) acc / Calc.resolveAndNormalizeUnits(Map(u.tail -> 1))
+        else acc * Calc.resolveAndNormalizeUnits(Map(u -> 1)) }
+
+  def apply(us: Symbol*): Number[Double] = buildNumber(1.0, us.map{_.name})
+  def apply(v: Double, us: Symbol*): Number[Double] = buildNumber(v, us.map{_.name})
 }
