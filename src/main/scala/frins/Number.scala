@@ -128,7 +128,12 @@ class Number[T](val value:T, val units: UnitT)(implicit num: Fractional[T]) {
   *   Number(v, 'm, '_s) ==> Number(v * fact, Map("m"->1,"s"->-1))
   * }}}
   *
- */
+  * Units can be expressed as Symbols (or Strings) and be implicitly converted to NumberT.
+  * If the unit has a leading underscore (_) is will be treated as a inversion.
+  * If the units has a leading dollar ($) it will be treated as a date with the following format yyyy_MM_DD
+  *   $now yields the current date (and time)
+  *
+   */
 object Number {
   def apply(): NumberT = apply(0)
   def apply(v: Double): NumberT = new Number(v, Map())
