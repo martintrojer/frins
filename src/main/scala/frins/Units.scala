@@ -30,7 +30,10 @@ object Units {
 
   def getUnit(name: String) = units.get.get(name)
   def isUnit(name: String) = units.get.contains(name)
-  def addUnit(name: String, value: NumberT) = units.swap(m => m + (name -> value))
+  def addUnit(name: String, value: NumberT) = {
+    units.swap(m => m + (name -> value))
+    getUnit(name).get
+  }
   def getFundamentalUnit(units: UnitT) = fundamentalUnits.get.get(units)
   def addFundamentalUnit(name: String, value: UnitT) = fundamentalUnits.swap(m => m + (value -> name))
   def isFundamental(name: String) = fundamentals.get.contains(name)
