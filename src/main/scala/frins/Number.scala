@@ -78,7 +78,7 @@ class Number[T](val value:T, val units: UnitT)(implicit num: Fractional[T]) {
   override def toString() = {
     val n = cleanUnits
     n.value.toString + " " +
-      n.units.map { case (k,v) => k + "^" + v }.mkString(" ") +
+      n.units.map { case (k,v) => k + (if (v != 1) "^" + v else "") }.mkString(" ") +
       " [" + Units.getFundamentalUnit(n.units).getOrElse("") +  "]"
   }
 
