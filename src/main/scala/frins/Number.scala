@@ -86,8 +86,6 @@ class Number[T](val value:T, val units: UnitT)(implicit num: Fractional[T]) {
 
   // ----
 
-  // goodbye nice Number[T], hello hardcoded NumberT
-
   import Number.buildNumber
 
   /** Convert this Number to the units contained in provided NumberT */

@@ -25,19 +25,19 @@ class ExampleCalculations {
   // Let's say you wanted to fill your bedroom up with water.How much water would it take?
   // Let's say your room measures 10 feet by 12 feet wide by 8 feet high.
 
-  N(10, 'feet) * N(12, 'feet) * N(8, 'feet) to 'gallons
+  'feet * 10 * 'feet * 12 * 'feet * 8 to 'gallons
   // res0: frins.NumberT = 7181.298701298702  [dimensionless]
 
   // It would take approximately 7181 gallons to fill it. How much would that weigh,
   // if you filled it with water? Frins has the unit "water" which stands for the density of water.
 
-  N(10, 'feet) * N(12, 'feet) * N(8, 'feet) * 'water to 'pounds
+  'feet * 10 * 'feet * 12 * 'feet * 8 * 'water to 'pounds
   // res1: frins.NumberT = 59930.842153098834  [dimensionless]
 
   // So it would weigh almost 60,000 pounds. What if you knew that your floor could only
   // support 2 tons? How deep could you fill the room with water?
 
-  N(2, 'tons) / (N(10,'feet) * N(12, 'feet) * 'water) to 'feet
+  N(2, 'tons) / ('feet * 10 * 'feet * 12 * 'water) to 'feet
   // res2: frins.NumberT = 0.5339487791320046  [dimensionless]
 
   // So you could only fill it about 0.53 feet deep. It'll be a pretty sad pool party.
@@ -71,7 +71,7 @@ class ExampleCalculations {
   // 5-gallon bucket (any resemblance to my college parties is completely intentional.)
   // What percent alcohol is that stuff?
 
-  Units.addUnit("junglejuice", N(1.75, 'liter) * 190 * 'proof / 5 * '_gallon)
+  Units.addUnit("junglejuice", 'liter * 1.75 * 'proof * 190 / 5 * '_gallon)
   // res6: frins.NumberT = 0.08783720740908435  [dimensionless]
 
   // Please note the use of '_gallon above. If a symbol begins with (_) it's treated as an inverted unit.
@@ -175,5 +175,34 @@ class ExampleCalculations {
   ('$2001_06_30 + N(41601, 'thousand, 'dollars) / 'burnrate) toDate
   // res19: java.util.Date = Fri Dec 14 16:41:38 GMT 2001
 
+  // =================================================================
+  // Ouch!
+
+  // At the moment, I'm watching CNN which is discussing some land-mines used in Afghanistan.
+  // They showed a very small mine (about the size of a bran muffin) containing "51 grams of TNT"
+  // and they asked how much destructive force that carries. Frins's data file includes how much
+  // energy is in a mass of TNT, specified by the unit "TNT". How many feet in the air could 51
+  // grams of TNT throw me, assuming perfect efficiency, and knowing energy = mass * gravity * height?
+
+  'TNT * 51 * 'grams to N(185, 'pounds, 'gravity, 'feet)
+  // res20: frins.NumberT = 937.7628167428614  [dimensionless]
+
+  // Yikes. 937 feet. But the only difference between explosives and other combustible fuels
+  // is the rapidity of combustion, not in the quantity of energy. How much gasoline contains
+  // the same amount of energy?
+
+  'TNT * 51 * 'grams to ('teaspoon, 'gasoline)
+  // res21: frins.NumberT = 1.290325559425589  [dimensionless]
+
+  // 1.29 teaspoons? That's not much at all. You're buying a huge amount of energy when you fill
+  // up your car.
+
+  // =================================================================
+  // Sniping eBay Auctions
+
+  // I need a monocle, but I don't want to pay a lot for it. The eBay monocle auction ends in
+  // 7 hours and 44 minutes... what time do I need to set the alarm clock for to remind me?
+
+  '$now + 'hours * 7 + 'minutes * 44 toDate
 
 }
