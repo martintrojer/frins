@@ -50,7 +50,7 @@ class ExampleCalculations {
   // while almost all other liquors (and many beers) are usually measured in alcohol/volume.
   // The density ratio between water and alcohol is given by:
 
-  N('water) / 'alcohol
+  'water / 'alcohol
   // res3: frins.Number[Double] = 1.2669453946534905  [dimensionless]
 
   // Water is thus 1.267 times denser than alcohol. 3.2 beer (measured by weight) is thus
@@ -63,7 +63,7 @@ class ExampleCalculations {
   // We have now added the unit 'beer to the unit database, and can use it as any other unit.
   // Then, you wanted to find out how many beers a big bottle of champagne is equal to:
 
-  N('magnum) * 13.5 * 'percent to 'beer
+  'magnum * 13.5 * 'percent to 'beer
   // res5: frins.NumberT = 14.07449256252434  [dimensionless]
 
   // You probably don't want to drink that whole bottle. Now let's say you're mixing Jungle
@@ -76,7 +76,7 @@ class ExampleCalculations {
 
   // Please note the use of '_gallon above. If a symbol begins with (_) it's treated as an inverted unit.
 
-  N('junglejuice) to 'percent
+  'junglejuice to 'percent
   // res7: frins.NumberT = 8.783720740908436  [dimensionless]
 
   // It's really not that strong. About 8.8%. But if you drink 5 cups of that,
@@ -95,12 +95,12 @@ class ExampleCalculations {
   // I don't think they sell full barrels. I've never seen one. It would weigh 258 pounds.
   // A "pony keg" is a "quarter barrel" or, in Frins notation, ponykeg or 1/4 beerbarrel)
 
-  N('keg) to 'case
+  'keg to 'case
   // res9: frins.NumberT = 6.888888888888888  [dimensionless]
 
   // How many 12 fluid ounce drinks (i.e. cans o' beer) in a keg?
 
-  N('keg) to N(12, 'floz)
+  'keg to N(12, 'floz)
   // res10: frins.NumberT = 165.33333333333331  [dimensionless]
 
   // What is the price in dollars per fluid ounce of alcohol when buying a keg of 3.2 beer?
@@ -119,6 +119,61 @@ class ExampleCalculations {
 
   N(13.99, 'dollars) / (N(1750, 'ml) * 80 * 'proof) to ('dollars, '_floz)
   // res13: frins.NumberT = 0.5910481122562501  [dimensionless]
+
+  // =================================================================
+  // Movie magic
+
+  // In the movie Independence Day, the alien mother ship is said to be 500 km in diameter
+  // and have a mass 1/4 that of earth's moon. If the mother ship were a sphere, what would
+  // its density be? (The volume of a sphere is 4/3 pi radius3)
+
+  N(1.0/4, 'moonmass) / N(4.0/3, 'pi) / (N(500.0/2, 'km) ** 3) to 'water
+  // res14: frins.NumberT = 280.6843843973219  [dimensionless]
+
+  // Please note the use of a prefix here "km" = 1000 "m"
+
+  // This makes the ship 280 times denser than water. This is 36 times denser than iron and
+  // more than 12 times denser than any known element! As the ship is actually more a thin disc
+  // than a sphere, it would actually be even denser. Since it contains lots of empty space,
+  // parts of it would have to be much, much denser.
+
+  // If the object is this dense and has such a large mass, what is its surface gravity?
+  // Surface gravity is given by G mass / radius2, where G is the gravitational constant
+  // (which Frins knows about):
+
+  'G * 1.0/4 * 'moonmass / (N(500.0/2, 'km) ** 2) to 'gravity
+  // res15: frins.NumberT = 2.000331549387406  [dimensionless]
+
+  // The surface gravity of the spaceship is thus at least twice earth's gravity-- and that's
+  // on the rim where gravity is weakest. It would actually be much higher since it's much,
+  // much flatter than a sphere. I hope you're not the alien that has to go outside and paint it.
+
+  // =================================================================
+  // Fiscal Calculations
+
+  // You can calculate the day that your company will run out of cash, based on their financial
+  // statements. The following is an example for a real company, based on SEC filings, which
+  // read as the following:
+  // Cash and Cash Equivalents (in thousands)
+  // December 31, 2000	June 30, 2001
+  // $86,481	        $41,601
+
+  Units.addUnit("burnrate", N(86481 - 41601, 'thousand, 'dollars) / ('$2001_06_30 - '$2000_12_31))
+  // res16: frins.NumberT = 2.870519610100545 dollars s^-1 []
+
+  // Please note the '$yyyy_MM_dd notation for date 'units' here
+
+  'burnrate to ('dollars, '_day)
+  // res17: frins.NumberT = 248012.8943126871  [dimensionless]
+
+  (N(41601, 'thousand, 'dollars) / 'burnrate) to 'days
+  // res18: frins.NumberT = 167.7372465463458  [dimensionless]
+
+  // Using date/time math, starting from the last report date (June 30, 2001) you can
+  // find out the exact date this corresponds to:
+
+  ('$2001_06_30 + N(41601, 'thousand, 'dollars) / 'burnrate) toDate
+  // res19: java.util.Date = Fri Dec 14 16:41:38 GMT 2001
 
 
 }

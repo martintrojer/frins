@@ -34,7 +34,7 @@ You are now ready to go! Frins keeps it's values in instances of the [Number](ht
 There are convenience Frins Number builders using the form `N(value, 'unit, 'unit, ...)` (value can be omitted) and implicits conversions from other number types and scala symbols (denoting the unit) to Frins Numbers.
 
 ```scala
-scala> N('teaspoon, 'water) * ('c ** 2)
+scala> 'teaspoon * 'water * ('c ** 2)
 res0: frins.Number[Double] = 4.429893807970541E14 m^2 kg s^-2 [energy]
 ```
 
