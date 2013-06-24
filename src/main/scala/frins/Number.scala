@@ -1,25 +1,43 @@
+//  Copyright (c) Martin Trojer. All rights reserved.
+//  The use and distribution terms for this software are covered by the
+//  Eclipse Public License 1.0 (http://opensource.org/licenses/eclipse-1.0.php)
+//  which can be found in the file epl-v10.html at the root of this distribution.
+//  By using this software in any fashion, you are agreeing to be bound by
+//  the terms of this license.
+//  You must not remove this notice, or any other, from this software.
+
 package frins
 
 import java.text.SimpleDateFormat
 import java.util.Date
 
+/** Represents a value and a unit
+  * Supports all operators you would expect of a scalar number
+  *
+  * @param value Numerical value of the Number
+  * @param units All units of the Number
+  * @param num
+  * @tparam T
+  */
 class Number[T](val value:T, val units: UnitT)(implicit num: Fractional[T]) {
 
   // ----
-  // Helper functions, where do these actually go?
 
+  /** Merges 2 sets of units */
   def mergeUnits (f: (Int, Int) => Int) (us: UnitT) =
     units ++ us.map { case (k, v) => k -> f(units.getOrElse(k, 0), v) }
 
   val addUnits = mergeUnits(_+_) _
   val subUnits = mergeUnits(_-_) _
 
+  /** Make sure provided number have the same units as this one */
   def enforceUnits(n: Number[T]) =
     if (cleanUnits.units != n.cleanUnits.units)
       throw new IllegalArgumentException("units doesn't match")
 
   // ----
 
+  /** Return a new Number with any 0 exponent units removed */
   def cleanUnits() = new Number(value, units filter { _._2 != 0 })
 
   def +(that: Number[T]) = {
@@ -72,10 +90,12 @@ class Number[T](val value:T, val units: UnitT)(implicit num: Fractional[T]) {
 
   import Number.buildNumber
 
+  /** Convert this Number to the units contained in provided NumberT */
   def to(that: NumberT): NumberT =
     Calc.convert(this.asInstanceOf[NumberT], that.units) / that.value
   def to(us: Symbol*): NumberT = to(buildNumber(1.0, us.map{_.name}))
 
+  /** Convert this Number to a date (if the units if of signature s^1)^*/
   def toDate =
     if (units == Map("s" -> 1)) new Date(value.asInstanceOf[Double].toLong * 1000)
     else throw new IllegalArgumentException("cannot convert unit to date")
@@ -99,6 +119,16 @@ class Number[T](val value:T, val units: UnitT)(implicit num: Fractional[T]) {
   override val hashCode = 41 * units.hashCode() + value.hashCode()
 }
 
+/** Convenient methods for building Numbers
+  * {{{
+  *   Number()        ==> Number(1,Map())
+  *   Number(v)       ==> Number(v, Map())
+  *   Number(Map(..)) ==> Number(1, Map(..))
+  *   Number('m, '_s) ==> Number(fact, Map("m"->1,"s"->-1))
+  *   Number(v, 'm, '_s) ==> Number(v * fact, Map("m"->1,"s"->-1))
+  * }}}
+  *
+ */
 object Number {
   def apply(): NumberT = apply(0)
   def apply(v: Double): NumberT = new Number(v, Map())
@@ -121,7 +151,12 @@ object Number {
   def apply(v: Double, us: Symbol*): NumberT = buildNumber(v, us.map{_.name})
 }
 
+/** Same as Number but with even less typing (yaj!) */
 object N {
+  def apply(): NumberT = apply(0)
+  def apply(v: Double): NumberT = new Number(v, Map())
+  def apply(units: UnitT): NumberT = apply(0, units)
+  def apply(v: Double, units: UnitT): NumberT = new Number(v, units)
 
   import Number.buildNumber
 
