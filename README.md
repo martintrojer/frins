@@ -13,24 +13,27 @@ Key features;
 
 Add the following lines to your build.sbt
 
-
 ```
 resolvers += "Sonatype snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/"
 
-libraryDependencies += "io.github.martintrojer" % "frins-scala_2.10" % "0.1-SNAPSHOT"
+libraryDependencies += "io.github.martintrojer" % "frins_2.10" % "0.1-SNAPSHOT"
 ```
+
+Turn your sbt console into an (even more) powerful calculator;
 
 ```scala
 $ sbt console
 scala> import frins._
 scala> initDatabases
+
+// You are now ready to go!
+
 scala> N(1, 'teaspoon, 'water) * ('c ** 2) to ('gallons, 'gasoline)
 res0: frins.NumberT = 3164209.8628361006  [dimensionless]
-// That's the energy contained in a teaspoon of water according to E=mc^2 converted to equivalent energy
+
+// That's the energy contained in a teaspoon of water (according to E=mc^2) converted to equivalent energy
 // from burning a gallon of gasoline (it's alot).
 ```
-
-Start calculating!
 
 ## Examples
 
