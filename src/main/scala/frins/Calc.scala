@@ -59,7 +59,6 @@ object Calc {
   /** Replaces units with already defined ones, and remove zero units
     * {{{
     *   Number('inch) ==> Number(0.0254, Map("m" -> 1))
-    *
     * }}}
     *
     * @param n Number to be normalized

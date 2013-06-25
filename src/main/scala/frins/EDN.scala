@@ -6,23 +6,11 @@
 //  the terms of this license.
 //  You must not remove this notice, or any other, from this software.
 
+// EDN format reader taken from https://github.com/martintrojer/edn-scala
+
 package frins
 
 import scala.util.parsing.combinator._
-import java.util.UUID
-import java.util.{Date, GregorianCalendar, Calendar, TimeZone}
-
-object Instant {
-  val timestamp = """(\d\d\d\d)(?:-(\d\d)(?:-(\d\d)(?:[T](\d\d)(?::(\d\d)(?::(\d\d)(?:[.](\d+))?)?)?)?)?)?(?:[Z]|([-+])(\d\d):(\d\d))?""".r
-
-  def read(src: String) = {
-    val timestamp(years, months, days, hours, minutes, seconds, nanoseconds, offsetSign, offsetHours, offsetMinutes) = src
-    val cal = new GregorianCalendar(years.toInt, months.toInt - 1, days.toInt, hours.toInt, minutes.toInt, seconds.toInt)
-    cal.set(Calendar.MILLISECOND, nanoseconds.toInt/1000000)
-    cal.setTimeZone(TimeZone.getTimeZone("GMT%s%02d:%02d".format(offsetSign, offsetHours.toInt, offsetMinutes.toInt)))
-    cal.getTime
-  }
-}
 
 object EDNReader extends JavaTokenParsers {
   val set: Parser[Set[Any]] = "#{" ~> rep(elem) <~ "}" ^^ (Set() ++ _)
@@ -34,8 +22,6 @@ object EDNReader extends JavaTokenParsers {
     case key ~ value => (key, value)
   }
   lazy val tagElem: Parser[Any] = """#[^,#\"\{\}\[\]\s]+""".r ~ elem ^^ {
-    case "#uuid" ~ (value: String) => UUID.fromString(value)
-    case "#inst" ~ (value: String) => Instant.read(value)
     case "#frinj.core.fjv" ~ (m: Map[_, _]) =>
       Number( m.asInstanceOf[Map[String,Any]](":v").asInstanceOf[Double],
               m.asInstanceOf[Map[String,Any]](":u").asInstanceOf[Map[String, Double]].map {
