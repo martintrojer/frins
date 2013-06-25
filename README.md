@@ -1,11 +1,11 @@
-# frins
+# Frins
 
 Frins is a practical unit-of-measure calculator DSL for Scala.
 
 Key features;
 
 * Tracks units of measure through all calculations allowing you to mix units of measure transparently
-* Comes with a huge database of units and conversion factors
+* Comes with a **huge** database of units and conversion factors
 * Inspired by the [Frink project](http://futureboy.us/frinkdocs/) and [Frinj](https://github.com/martintrojer/frinj)
 * Tries to combine Frink's fluent calculation style with idiomatic Scala
 
@@ -55,7 +55,7 @@ For more examples and explanations of the Number builders (and more!) see the ex
 
 * [Video of a Frinj talk](http://skillsmatter.com/podcast/home/frinj-having-fun-with-units-3861) (Frinj is Frins' sibling project)
 
-Also, check the Frinj [wiki](https://github.com/martintrojer/frinj/wiki) for related information.
+Also, check the [wiki](https://github.com/martintrojer/frins/wiki) for related information.
 
 ## License
 
