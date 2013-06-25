@@ -14,6 +14,8 @@
 
 package frins
 
+import scala.language.postfixOps
+
 class ExampleCalculations {
 
   // setup the databases (only needs to be done once!)

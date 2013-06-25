@@ -8,6 +8,7 @@
 
 package frins
 
+import scala.language.postfixOps
 import org.scalatest.FunSuite
 
 class SampleCalcTest extends FunSuite {

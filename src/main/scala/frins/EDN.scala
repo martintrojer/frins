@@ -19,7 +19,7 @@ object Instant {
     val timestamp(years, months, days, hours, minutes, seconds, nanoseconds, offsetSign, offsetHours, offsetMinutes) = src
     val cal = new GregorianCalendar(years.toInt, months.toInt - 1, days.toInt, hours.toInt, minutes.toInt, seconds.toInt)
     cal.set(Calendar.MILLISECOND, nanoseconds.toInt/1000000)
-    cal.setTimeZone(TimeZone.getTimeZone(format("GMT%s%02d:%02d", offsetSign, offsetHours.toInt, offsetMinutes.toInt)))
+    cal.setTimeZone(TimeZone.getTimeZone("GMT%s%02d:%02d".format(offsetSign, offsetHours.toInt, offsetMinutes.toInt)))
     cal.getTime
   }
 }
@@ -36,9 +36,9 @@ object EDNReader extends JavaTokenParsers {
   lazy val tagElem: Parser[Any] = """#[^,#\"\{\}\[\]\s]+""".r ~ elem ^^ {
     case "#uuid" ~ (value: String) => UUID.fromString(value)
     case "#inst" ~ (value: String) => Instant.read(value)
-    case "#frinj.core.fjv" ~ (m: Map[String, Any]) =>
-      Number( m(":v").asInstanceOf[Double],
-              m(":u").asInstanceOf[Map[String, Double]].map {
+    case "#frinj.core.fjv" ~ (m: Map[_, _]) =>
+      Number( m.asInstanceOf[Map[String,Any]](":v").asInstanceOf[Double],
+              m.asInstanceOf[Map[String,Any]](":u").asInstanceOf[Map[String, Double]].map {
                 case (k,v) => (k, v.toInt)})
     case name ~ value => (name, value)
   }
