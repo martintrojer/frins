@@ -55,7 +55,7 @@ For more examples and explanations of the Number builders (and more!) see the ex
 
 * [Video of a Frinj talk](http://skillsmatter.com/podcast/home/frinj-having-fun-with-units-3861) (Frinj is Frins' sibling project)
 
-Also, check the [wiki](https://github.com/martintrojer/frins/wiki) for related information.
+Finally, check the [wiki](https://github.com/martintrojer/frins/wiki) for more information.
 
 ## License
 
