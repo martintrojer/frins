@@ -41,7 +41,7 @@ res0: frins.Number[Double] = 4.429893807970541E14 m^2 kg s^-2 [energy]
 That's the energy contained in one teaspoon of water (using `E=mc^2`). Wow, big number, how much is that "in real money"?
 
 ```scala
-scala> res0 to ('gallons, 'gasoline)
+scala> res0 to 'gallons * 'gasoline
 res1: frins.NumberT = 3164209.8628361006  [dimensionless]
 ```
 
