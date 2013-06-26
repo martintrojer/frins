@@ -109,17 +109,17 @@ class ExampleCalculations {
   // (Remember that 3.2 beer is measured in alcohol/weight, so we correct by the density
   // ratio of water/alcohol to get alcohol by volume:
 
-  N(60, 'dollars) / ('keg * 3.2 * 'percent *'water * '_alcohol) to ('dollars, '_floz)
+  N(60, 'dollars) / ('keg * 3.2 * 'percent *'water * '_alcohol) to 'dollars * '_floz
   // res11: frins.NumberT = 0.7459362399193549  [dimensionless]
 
   // A bottle of cheap wine? (A "winebottle" is the standard 750 ml size.)
 
-  N(6.99, 'dollars) / ('winebottle * 13 *'percent) to ('dollars, '_floz)
+  N(6.99, 'dollars) / ('winebottle * 13 *'percent) to 'dollars / 'floz
   // res12: frins.NumberT = 2.120194580942308  [dimensionless]
 
   // A big plastic bottle of really bad vodka?
 
-  N(13.99, 'dollars) / (N(1750, 'ml) * 80 * 'proof) to ('dollars, '_floz)
+  N(13.99, 'dollars) / (N(1750, 'ml) * 80 * 'proof) to 'dollars / 'floz
   // res13: frins.NumberT = 0.5910481122562501  [dimensionless]
 
   // =================================================================
@@ -193,7 +193,7 @@ class ExampleCalculations {
   // is the rapidity of combustion, not in the quantity of energy. How much gasoline contains
   // the same amount of energy?
 
-  'TNT * 51 * 'grams to ('teaspoon, 'gasoline)
+  'TNT * 51 * 'grams to 'teaspoon * 'gasoline
   // res21: frins.NumberT = 1.290325559425589  [dimensionless]
 
   // 1.29 teaspoons? That's not much at all. You're buying a huge amount of energy when you fill
@@ -214,7 +214,7 @@ class ExampleCalculations {
   // my side. This week the team has to float a submerged half-ton Cooper Mini... how many oil
   // barrels will they need to use as floats?
 
-  'half * 'ton to ('barrels,'water)
+  'half * 'ton to 'barrels * 'water
   // res23: frins.NumberT = 2.8530101742118243  [dimensionless]
 
   // They're trying to hand-pump air down to the barrels, submerged "2 fathoms" below the water.
@@ -372,11 +372,11 @@ class ExampleCalculations {
   // methane in their intestines! So what's the rest of the gas?
 
   // Gas	          Percent by Volume
-  // Nitrogen	      64%
-  // Carbon Dioxide 14%
-  // Hydrogen	      19%
-  // Methane	      3.2%
-  // Oxygen	        0.7%
+  // Nitrogen        64%
+  // Carbon Dioxide  14%
+  // Hydrogen        19%
+  // Methane         3.2%
+  // Oxygen          0.7%
 
   // These studies also note that the average person has 100 milliliters of gas is present in their
   // intestinal tract at any given time. The average person expels 400-2000 ml of gas daily
@@ -387,8 +387,8 @@ class ExampleCalculations {
   // methane are readily combustible. Looking up their energies of combustion:
 
   // Gas	                Energy of Combustion in kJ/mol
-  // Hydrogen (H2)        285.8
-  // Methane (CH4)        890.8
+  // Hydrogen (H2)       285.8
+  // Methane (CH4)       890.8
 
   // Okay, that's plenty enough information to find out how much energy is released in a day of
   // farting! Say you're on the farty end of the scale, and you produce the 2000 ml of gas each day.
@@ -443,7 +443,7 @@ class ExampleCalculations {
   // hour at a service speed of 28 knots. By legislation in many areas, diesel fuel must have
   // a density no higher than 0.85 kg/liter (if it were watered down, it would be higher.)
 
-  'tons * 18 / 'hour / ('knot * 28) / ('kg * 0.85 / 'liter) to ('feet, '_gallon)
+  'tons * 18 / 'hour / ('knot * 28) / ('kg * 0.85 / 'liter) to 'feet / 'gallon
   // res40: frins.NumberT = 33.52338503156235  [dimensionless]
 
   // They're very, very wrong. It actually travels about 33.5 feet per gallon, or 157 gallons/mile.
@@ -457,7 +457,7 @@ class ExampleCalculations {
   // Let's see... let's try with a medium-expensive, light car. A 2001 Corvette Z06 weighs
   // 3,115 pounds and costs $48,055.
 
-  'dollars * 48055 / ('lb * 3115) to ('dollars, '_lb)
+  'dollars * 48055 / ('lb * 3115) to 'dollars / 'lb
   // res41: frins.NumberT = 15.42696629213483  [dimensionless]
 
   // I know I don't pay $15/lb for hamburger.
@@ -484,7 +484,7 @@ class ExampleCalculations {
 
   // About 28257 feet of water. This was deposited over 40 days. The rainfall was thus:
 
-  'depth / ('days * 40) to ('inch, '_hour)
+  'depth / ('days * 40) to 'inch / 'hour
   // res43: frins.NumberT = 353.21562500000005  [dimensionless]
 
   // About 29 feet/hour. A good rain around here is about an inch an hour.
@@ -502,7 +502,7 @@ class ExampleCalculations {
   // If you took the matter in a teaspoon of water, and converted that to energy, how many gallons
   // of gasoline would that equal?
 
-  'teaspoon * 'water * ('c ** 2) to ('gallons, 'gasoline)
+  'teaspoon * 'water * ('c ** 2) to 'gallons * 'gasoline
   // res44: frins.NumberT = 3164209.862836101  [dimensionless]
 
   // Unbelievable. The energy in a teaspoon of water, if we could extract it, is equal to burning
