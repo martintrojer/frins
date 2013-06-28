@@ -13,6 +13,9 @@ package frins
   * StandAlone Prefixes are unit prefixes that can also appear stand alone as a normal unit
   * Prefixes can only appear as a prefix of another (valid) non-prefix unit
   */
+
+import Atom._
+
 object Prefixes {
 
   val prefixes = Atom[PrefixT](Map())

@@ -16,6 +16,9 @@ package frins
   *
   * FundamentalUnits are a reverse lookup of known Unit signatures and a helpful name
   */
+
+import Atom._
+
 object Units {
 
   val units = Atom[UnitMapT](Map())

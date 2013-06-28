@@ -25,6 +25,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="SBT: org.scala-lang:scala-library:2.10.2" level="project" />
+    <orderEntry type="library" name="SBT: io.github.martintrojer:atom-scala_2.10:0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="TEST" name="SBT: org.scalatest:scalatest_2.10:1.9.1:test" level="project" />
     <orderEntry type="library" scope="TEST" name="SBT: org.scala-lang:scala-actors:2.10.0:test" level="project" />
     <orderEntry type="library" scope="TEST" name="SBT: org.scala-lang:scala-reflect:2.10.0:test" level="project" />
