@@ -14,7 +14,7 @@ Key features;
 Add the following lines to your build.sbt
 
 ```
-resolvers += "Sonatype snapshots" at "http://oss.sonatype.org/content/repositories/snapshots/"
+resolvers += "Sonatype snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
 
 libraryDependencies += "io.github.martintrojer" % "frins_2.10" % "0.1-SNAPSHOT"
 ```
